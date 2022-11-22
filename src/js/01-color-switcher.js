@@ -12,13 +12,18 @@ console.log(refs);
 let timerId = null;
 
 function onChangeColorClick() {
-  timerId = setInterval(() => {
-    refs.bodyRef.style.backgroundColor = getRandomHexColor();
-  }, 1000);
+  timerId = setInterval(
+    () => {
+      refs.bodyRef.style.backgroundColor = getRandomHexColor();
+    },
+    1000,
+    refs.btnStartRefs.setAttribute('disabled', true)
+  );
 }
 
 function onStopChangeColorClick() {
   clearInterval(timerId);
+  refs.btnStartRefs.removeAttribute('disabled', true);
 }
 
 function getRandomHexColor() {
