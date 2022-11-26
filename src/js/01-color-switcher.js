@@ -7,8 +7,6 @@ const refs = {
 refs.btnStartRefs.addEventListener('click', onChangeColorClick);
 refs.btnStopRefs.addEventListener('click', onStopChangeColorClick);
 
-console.log(refs);
-
 let timerId = null;
 
 function onChangeColorClick() {
