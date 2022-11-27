@@ -36,6 +36,14 @@ class Timer {
 
   stop() {}
 }
+
+function updateClockface({ days, hours, minutes, seconds }) {
+  refs.spanDataDays.textContent = '${days}';
+  refs.spanDataHours.textContent = '${hours}';
+  refs.spanDataMinutes.textContent = '${minutes}';
+  refs.spanDataSeconds.textContent = '${seconds}';
+}
+
 const options = {
   enableTime: true,
   time_24hr: true,
