@@ -3,6 +3,10 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const refs = {
   startButtonRef: document.querySelector('[data-start]'),
+  spanDataDays: document.querySelector('data-days'),
+  spanDataHours: document.querySelector('data-hours'),
+  spanDataMinutes: document.querySelector('data-minutes'),
+  spanDataSeconds: document.querySelector('data-seconds'),
 };
 
 class Timer {
@@ -15,9 +19,19 @@ class Timer {
     this.startButton.addEventListener('click', this.start);
   }
   start() {
-    console.log('start');
-    // вибір дати методом selectedDates бібліотеки
+    // console.log('start');
+    // вибір дати методом selectedDates бібліотеки flatpickr
     console.log(resultFlatpickr.selectedDates[0]);
+    // обрана дата
+    const selectedDate = resultFlatpickr.selectedDates[0];
+    // поточна дата
+    const currentDate = Date.now();
+    // різниця між обраною і поточною датою
+    const deltaTime = selectedDate - currentDate;
+    // у функцію convertMs передаю deltaTime(різницю)
+    // деструктуризація convertMs яка вертає { days, hours, minutes, seconds }
+    const { days, hours, minutes, seconds } = convertMs(deltaTime);
+    console.log({ days, hours, minutes, seconds });
   }
 
   stop() {}
@@ -43,6 +57,16 @@ const timer = new Timer('#datetime-picker');
 // ініціалізація бібліотеки запис у змінну
 const resultFlatpickr = flatpickr('#datetime-picker', options);
 
+//функція, яка додає 0 в секундах
+function addLeadingZero(value) {
+  // число перетворюється на стоку
+  // виклик методу padStart
+  // візми сторку і додай спочатку до двух символів, тобто 0, якщо там один
+  return String(value).padStart(2, '0');
+  // якщо приходить 1 - повертає 01 і тд...
+  // якщо 12 - то верне 12
+}
+
 // функція підрахунку часу
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -52,13 +76,16 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  // огортаємо в функцію addLeadingZero Math.floor ()
+  const days = addLeadingZero(Math.floor(ms / day));
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = addLeadingZero(
+    Math.floor((((ms % day) % hour) % minute) / second)
+  );
 
   return { days, hours, minutes, seconds };
 }
