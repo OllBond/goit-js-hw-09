@@ -10,34 +10,55 @@ const refs = {
 };
 
 class Timer {
-  constructor(dateTimePicker) {
-    this.parent = document.querySelector(dateTimePicker);
-    // console.log(this.parent);
+  constructor({ onTick }) {
+    this.intervalId = null;
+    //щоб заново не запускався таймер
+    this.isActive = false;
+    this.onTick = onTick;
+    // this.parent = document.querySelector(dateTimePicker);
+    // // console.log(this.parent);
 
-    this.startButton = document.querySelector('[data-start]');
-    // console.log(this.startButton);
-    this.startButton.addEventListener('click', this.start);
+    // this.startButton = document.querySelector('[data-start]');
+    // // console.log(this.startButton);
+    // this.startButton.addEventListener('click', this.start);
   }
   start() {
-    // console.log('start');
-    // вибір дати методом selectedDates бібліотеки flatpickr
-    console.log(resultFlatpickr.selectedDates[0]);
-    // обрана дата
-    const selectedDate = resultFlatpickr.selectedDates[0];
-    // поточна дата
-    const currentDate = Date.now();
-    // різниця між обраною і поточною датою
-    const deltaTime = selectedDate - currentDate;
-    // у функцію convertMs передаю deltaTime(різницю)
-    // деструктуризація convertMs яка вертає { days, hours, minutes, seconds }
-    const { days, hours, minutes, seconds } = convertMs(deltaTime);
-    console.log({ days, hours, minutes, seconds });
+    // якщо таймер активний виходимо з функції
+    if (this.isActive) {
+      return;
+    }
+    // якщо таймер не активний робимо активним
+    this.isActive = true;
+
+    this.intervalId = setInterval(() => {
+      // вибір дати методом selectedDates бібліотеки flatpickr
+      console.log(resultFlatpickr.selectedDates[0]);
+      // обрана дата
+      const selectedDate = resultFlatpickr.selectedDates[0];
+      // поточна дата
+      const currentDate = Date.now();
+      // різниця між обраною і поточною датою
+      const deltaTime = selectedDate - currentDate;
+      // у функцію convertMs передаю deltaTime(різницю)
+      const time = convertMs(deltaTime);
+      this.onTick(time);
+    }, 1000);
   }
 
-  stop() {}
+  stop() {
+    // clearInterval(this.intrvalId);
+  }
 }
 
+// на старті програми зробити екземпляр класу
+const timer = new Timer({
+  onTick: updateClockface,
+});
+// const timer = new Timer('#datetime-picker');
+refs.startButtonRef.addEventListener('click', timer.start.bind(timer));
+
 function updateClockface({ days, hours, minutes, seconds }) {
+  // оновлює значення в інтерфейсі
   refs.spanDataDays.textContent = '${days}';
   refs.spanDataHours.textContent = '${hours}';
   refs.spanDataMinutes.textContent = '${minutes}';
@@ -58,9 +79,6 @@ const options = {
     refs.startButtonRef.removeAttribute('disabled');
   },
 };
-
-// на старті програми зробити екзепляр класу
-const timer = new Timer('#datetime-picker');
 
 // ініціалізація бібліотеки запис у змінну
 const resultFlatpickr = flatpickr('#datetime-picker', options);
