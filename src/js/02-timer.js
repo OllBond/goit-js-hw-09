@@ -3,10 +3,10 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const refs = {
   startButtonRef: document.querySelector('[data-start]'),
-  spanDataDays: document.querySelector('data-days'),
-  spanDataHours: document.querySelector('data-hours'),
-  spanDataMinutes: document.querySelector('data-minutes'),
-  spanDataSeconds: document.querySelector('data-seconds'),
+  spanDataDays: document.querySelector('[data-days]'),
+  spanDataHours: document.querySelector('[data-hours]'),
+  spanDataMinutes: document.querySelector('[data-minutes]'),
+  spanDataSeconds: document.querySelector('[data-seconds]'),
 };
 
 class Timer {
@@ -46,7 +46,10 @@ class Timer {
   }
 
   stop() {
-    // clearInterval(this.intrvalId);
+    clearInterval(this.intrvalId);
+    this.isActive = false;
+    const time = this.convertMs(0);
+    this.onTick(time);
   }
 }
 
@@ -59,10 +62,10 @@ refs.startButtonRef.addEventListener('click', timer.start.bind(timer));
 
 function updateClockface({ days, hours, minutes, seconds }) {
   // оновлює значення в інтерфейсі
-  refs.spanDataDays.textContent = '${days}';
-  refs.spanDataHours.textContent = '${hours}';
-  refs.spanDataMinutes.textContent = '${minutes}';
-  refs.spanDataSeconds.textContent = '${seconds}';
+  refs.spanDataDays.textContent = `${days}`;
+  refs.spanDataHours.textContent = `${hours}`;
+  refs.spanDataMinutes.textContent = `${minutes}`;
+  refs.spanDataSeconds.textContent = `${seconds}`;
 }
 
 const options = {
