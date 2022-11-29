@@ -46,10 +46,14 @@ class Timer {
   }
 
   stop() {
-    clearInterval(this.intrvalId);
-    this.isActive = false;
-    const time = this.convertMs(0);
-    this.onTick(time);
+    if (deltaTime <= 0) {
+      clearInterval(this.intrvalId);
+      updateClockface(0, 0, 0, 0);
+    }
+    // clearInterval(this.intrvalId);
+    // this.isActive = false;
+    // const time = this.convertMs(0);
+    // this.onTick(time);
   }
 }
 
@@ -57,7 +61,7 @@ class Timer {
 const timer = new Timer({
   onTick: updateClockface,
 });
-// const timer = new Timer('#datetime-picker');
+
 refs.startButtonRef.addEventListener('click', timer.start.bind(timer));
 
 function updateClockface({ days, hours, minutes, seconds }) {
