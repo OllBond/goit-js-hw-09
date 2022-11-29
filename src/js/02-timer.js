@@ -26,7 +26,7 @@ class Timer {
 
     this.intervalId = setInterval(() => {
       // вибір дати методом selectedDates бібліотеки flatpickr
-      console.log(resultFlatpickr.selectedDates[0]);
+      resultFlatpickr.selectedDates[0];
       // обрана дата
       const selectedDate = resultFlatpickr.selectedDates[0];
       // поточна дата
@@ -36,21 +36,19 @@ class Timer {
       // у функцію convertMs передаю deltaTime(різницю)
       const time = convertMs(deltaTime);
       this.onTick(time);
+
+      if (deltaTime < 1000) {
+        this.stop();
+        return;
+      }
     }, 1000);
   }
 
   stop() {
-    if (deltaTime < 1000) {
-      clearInterval(this.intrvalId);
-      // updateClockface(0, 0, 0, 0);
-    }
-    // clearInterval(this.intrvalId);
-    // this.isActive = false;
-    // const time = this.convertMs(0);
-    // this.onTick(time);
+    clearInterval(this.intervalId);
+    console.log(this.intervalId);
   }
 }
-
 // на старті програми зробити екземпляр класу
 const timer = new Timer({
   onTick: updateClockface,
