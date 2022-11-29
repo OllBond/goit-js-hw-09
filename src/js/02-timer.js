@@ -33,20 +33,21 @@ class Timer {
       const currentDate = Date.now();
       // різниця між обраною і поточною датою
       const deltaTime = selectedDate - currentDate;
-      // у функцію convertMs передаю deltaTime(різницю)
+      // у функцію convertMs передаю параметр deltaTime(різницю)
       const time = convertMs(deltaTime);
+      // повертаються в інтерфейсі дні,години, хвилини, cекунди
       this.onTick(time);
 
       if (deltaTime < 1000) {
+        // виклик методу stop()
         this.stop();
         return;
       }
     }, 1000);
   }
-
+  // очистка setInterval
   stop() {
     clearInterval(this.intervalId);
-    console.log(this.intervalId);
   }
 }
 // на старті програми зробити екземпляр класу
