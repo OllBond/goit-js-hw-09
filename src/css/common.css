@@ -16,14 +16,13 @@ img {
   display: block;
   max-width: 100%;
 }
-/* .timer {
+.timer {
   column-gap: 20px;
   margin-top: 30px;
   display: flex;
-} 
+}
 timer > .field {
   flex-direction: column;
   align-items: center;
   display: flex;
 }
-*/

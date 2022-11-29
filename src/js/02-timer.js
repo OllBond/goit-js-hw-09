@@ -15,12 +15,6 @@ class Timer {
     //щоб заново не запускався таймер
     this.isActive = false;
     this.onTick = onTick;
-    // this.parent = document.querySelector(dateTimePicker);
-    // // console.log(this.parent);
-
-    // this.startButton = document.querySelector('[data-start]');
-    // // console.log(this.startButton);
-    // this.startButton.addEventListener('click', this.start);
   }
   start() {
     // якщо таймер активний виходимо з функції
