@@ -42,7 +42,7 @@ class Timer {
   stop() {
     if (deltaTime <= 0) {
       clearInterval(this.intrvalId);
-      updateClockface(0, 0, 0, 0);
+      // updateClockface(0, 0, 0, 0);
     }
     // clearInterval(this.intrvalId);
     // this.isActive = false;
