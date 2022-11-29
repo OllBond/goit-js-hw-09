@@ -40,7 +40,7 @@ class Timer {
   }
 
   stop() {
-    if (deltaTime <= 0) {
+    if (deltaTime < 1000) {
       clearInterval(this.intrvalId);
       // updateClockface(0, 0, 0, 0);
     }
