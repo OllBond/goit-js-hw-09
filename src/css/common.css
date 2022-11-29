@@ -21,7 +21,8 @@ img {
   margin-top: 30px;
   display: flex;
 }
-timer > .field {
+
+.field {
   flex-direction: column;
   align-items: center;
   display: flex;
